@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightEye Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <header>
+        <h1>InsightEye Dashboard</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+    <div class="container">
+
+        <label id="image-upload-label" for="image-upload">Choose Image</label>
+        <input type="file" id="image-upload" name="file" accept="image/*">
+        <div id="image-preview-container" style="display: none;">
+            <h2>Uploaded Image Preview</h2>
+            <img id="image-preview" src="#" alt="Image Preview">
+        </div>
+        <button class="submit-button" onclick="detect()">Submit</button>
+
+        <div>
+            <br>
+            <br>
+            <p id="prediction"></p>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            alert("You have been logged out!");
+            window.location.href = "index.html";
+        }
+
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function () {
+                var imagePreview = document.getElementById('image-preview');
+                imagePreview.src = reader.result;
+                document.getElementById('image-preview-container').style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        document.getElementById('image-upload').addEventListener('change', function (event) {
+            previewImage(event);
+        });
+
+        function detect() {
+            var diseases = ['Cataract', 'Diabetic Retinopathy', 'Glaucoma'];
+            var randomIndex = Math.floor(Math.random() * diseases.length);
+            var randomDisease = diseases[randomIndex];
+            var detText = "<strong>Predicted Disease:</strong> " + randomDisease;
+            document.getElementById("prediction").innerHTML = detText;
+        }
+    </script>
+</body>
+
+</html>
